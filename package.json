@@ -6,6 +6,7 @@
   "dependencies": {
     "@tonejs/midi": "^1.2.2",
     "express": "^4.16.4",
+    "midiconvert": "^0.4.7",
     "tone": "^13.4.9"
   },
   "devDependencies": {},
