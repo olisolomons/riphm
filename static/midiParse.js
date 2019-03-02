@@ -22,36 +22,68 @@ async function parse(file) {
                     lastNoteTime = note.time;
                     //Generate an obstacle based on note.time, note.pitch, note.octave, note.duration, note.velocity?
                     if (note.pitch.charAt(0) <= "B".charAt(0)) {
-                            //generate low object
-                            level.push({
-                                time: note.time,
-                                type: "low",
-                                instrument: note.instrument
-                            });
-                        }
-                    else if(note.pitch.charAt(0) <= "D".charAt(0)) {
-                            //generate left object
+                        if(note.octave <= 3) {
                             level.push({
                                 time: note.time,
                                 type: "left",
                                 instrument: note.instrument
                             });
                         }
-                    else if (note.pitch.charAt(0) <= "F".charAt(0)) {
-                            //generate high object
+                        else {
                             level.push({
                                 time: note.time,
-                                type: "high",
+                                type: "low",
                                 instrument: note.instrument
                             });
-                    } 
-                    else if(note.pitch.charAt(0) <= "G".charAt(0)) {
-                            //generate right object
+                        }
+                    }
+                    else if(note.pitch.charAt(0) <= "D".charAt(0)) {
+                        if(note.octave <= 3) {
+                            level.push({
+                                time: note.time,
+                                type: "low",
+                                instrument: note.instrument
+                            });
+                        }
+                        else {
                             level.push({
                                 time: note.time,
                                 type: "right",
                                 instrument: note.instrument
                             });
+                        }
+                    }
+                    else if (note.pitch.charAt(0) <= "F".charAt(0)) {
+                        if(note.octave <= 3) {
+                            level.push({
+                                time: note.time,
+                                type: "high",
+                                instrument: note.instrument
+                            });
+                        }
+                        else {
+                            level.push({
+                                time: note.time,
+                                type: "left",
+                                instrument: note.instrument
+                            });
+                        }
+                    } 
+                    else if(note.pitch.charAt(0) <= "G".charAt(0)) {
+                        if(note.octave <= 3) {
+                            level.push({
+                                time: note.time,
+                                type: "high",
+                                instrument: note.instrument
+                            });
+                        }
+                        else {
+                            level.push({
+                                time: note.time,
+                                type: "right",
+                                instrument: note.instrument
+                            });
+                        }
                         }
                     }
             });
