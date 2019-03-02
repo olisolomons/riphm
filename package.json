@@ -1,0 +1,23 @@
+{
+  "name": "riphm",
+  "version": "1.0.0",
+  "description": "a web-based 3d rhythm-based platformer game",
+  "main": "server/index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olisolomons/riphm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olisolomons/riphm/issues"
+  },
+  "homepage": "https://github.com/olisolomons/riphm#readme"
+}
