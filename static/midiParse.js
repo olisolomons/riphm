@@ -18,11 +18,11 @@ async function parse(file) {
         if (track.channel === 0) {
             var lastNoteTime = 0;
             track.notes.forEach(note => {
-                if(note.time > (lastNoteTime +0)) {
+                if(note.octave > 3) {
                     lastNoteTime = note.time;
                     //Generate an obstacle based on note.time, note.pitch, note.octave, note.duration, note.velocity?
                     if (note.pitch.charAt(0) <= "B".charAt(0)) {
-                        if(note.octave <= 3) {
+                        if(note.octave <= 5) {
                             level.push({
                                 time: note.time,
                                 type: "left",
@@ -38,7 +38,7 @@ async function parse(file) {
                         }
                     }
                     else if(note.pitch.charAt(0) <= "D".charAt(0)) {
-                        if(note.octave <= 3) {
+                        if(note.octave <= 5) {
                             level.push({
                                 time: note.time,
                                 type: "low",
@@ -54,7 +54,7 @@ async function parse(file) {
                         }
                     }
                     else if (note.pitch.charAt(0) <= "F".charAt(0)) {
-                        if(note.octave <= 3) {
+                        if(note.octave <= 5) {
                             level.push({
                                 time: note.time,
                                 type: "high",
@@ -70,7 +70,7 @@ async function parse(file) {
                         }
                     }
                     else if(note.pitch.charAt(0) <= "G".charAt(0)) {
-                        if(note.octave <= 3) {
+                        if(note.octave <= 5) {
                             level.push({
                                 time: note.time,
                                 type: "high",
