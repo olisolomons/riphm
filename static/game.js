@@ -3,7 +3,12 @@ class Game {
         this.level = level;
 
         this.startTime = new Date().getTime();
+
+        this.current = [];
+
     }
+
+    
 
     time(){
         return new Date().getTime() - this.startTime;
@@ -24,9 +29,10 @@ class Game {
         plane(1500, 15000, 500);
 
         specularMaterial(1000, 1000, 1000);
+
         for(let note of this.level){
             push();
-            translate(0, 400+this.time()/2-note.time*100, 50);
+            translate(0, 400+(this.time()/1000-note.time)*1000, 50);
             box(1500,100,100);
 
             pop();

@@ -1,17 +1,20 @@
-
-
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
 
     $('body').css('margin', '0px');
 
-    let level = new parser('a path').getLevel();
+    parse('pirates.mid').then(level => {
+        console.log("parsed");
+        this.game = new Game(level);
+    });
 
-    this.game = new Game(level);
 }
 
 
 let angle = Math.PI * 0.3;
+
 function draw() {
-    game.draw();
+    if (this.game) {
+        game.draw();
+    }
 }

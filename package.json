@@ -4,7 +4,9 @@
   "description": "a web-based 3d rhythm-based platformer game",
   "main": "server/index.js",
   "dependencies": {
-    "express": "^4.16.4"
+    "@tonejs/midi": "^1.2.2",
+    "express": "^4.16.4",
+    "tone": "^13.4.9"
   },
   "devDependencies": {},
   "scripts": {
