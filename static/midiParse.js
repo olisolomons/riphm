@@ -18,7 +18,7 @@ async function parse(file) {
         if (track.channel === 0) {
             var lastNoteTime = 0;
             track.notes.forEach(note => {
-                if(note.time > (lastNoteTime + 0.1)) {
+                if(note.time > (lastNoteTime + 0.4)) {
                     lastNoteTime = note.time;
                     //Generate an obstacle based on note.time, note.pitch, note.octave, note.duration, note.velocity?
                     if (note.pitch.charAt(0) <= "B".charAt(0)) {
@@ -54,7 +54,6 @@ async function parse(file) {
                             });
                         }
                     }
-                }
             });
         } else if (track.instrument.percussion) {
             //Generate percussion obstacles
