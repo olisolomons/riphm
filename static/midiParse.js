@@ -1,7 +1,5 @@
 const Midi = require("@tonejs/midi");
 
-const midiFile = await Midi.fromUrl("midi.mid");
-
 /*Level obstacle format
 *
 *   time: time obstacle should appear (in seconds)
@@ -63,7 +61,9 @@ class parser {
         });
     }
 
-
+    getLevel() {
+        return this.level;
+    }
 
 }
 module.exports = parser;
