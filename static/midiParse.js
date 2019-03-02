@@ -7,97 +7,24 @@
  */
 
 async function parse(file) {
-    console.log("parse1");
     const midiFile = await Midi.fromUrl(file);
-    console.log("parse2");
     const level = [];
 
     for (let track of midiFile.tracks) {
-        console.log(track);
+        var lastNoteTime = 0;
         //Change obstacle based on channel and/or instrument? Channels 9 and 10 are used for percussion
-        if (track.channel === 0) {
-            var lastNoteTime = 0;
-            track.notes.forEach(note => {
-                if(note.octave > 3) {
-                    lastNoteTime = note.time;
-                    //Generate an obstacle based on note.time, note.pitch, note.octave, note.duration, note.velocity?
-                    if (note.pitch.charAt(0) <= "B".charAt(0)) {
-                        if(note.octave <= 5) {
-                            level.push({
-                                time: note.time,
-                                type: "left",
-                                instrument: note.instrument
-                            });
-                        }
-                        else {
-                            level.push({
-                                time: note.time,
-                                type: "low",
-                                instrument: note.instrument
-                            });
-                        }
-                    }
-                    else if(note.pitch.charAt(0) <= "D".charAt(0)) {
-                        if(note.octave <= 5) {
-                            level.push({
-                                time: note.time,
-                                type: "low",
-                                instrument: note.instrument
-                            });
-                        }
-                        else {
-                            level.push({
-                                time: note.time,
-                                type: "right",
-                                instrument: note.instrument
-                            });
-                        }
-                    }
-                    else if (note.pitch.charAt(0) <= "F".charAt(0)) {
-                        if(note.octave <= 5) {
-                            level.push({
-                                time: note.time,
-                                type: "high",
-                                instrument: note.instrument
-                            });
-                        }
-                        else {
-                            level.push({
-                                time: note.time,
-                                type: "left",
-                                instrument: note.instrument
-                            });
-                        }
-                    }
-                    else if(note.pitch.charAt(0) <= "G".charAt(0)) {
-                        if(note.octave <= 5) {
-                            level.push({
-                                time: note.time,
-                                type: "high",
-                                instrument: note.instrument
-                            });
-                        }
-                        else {
-                            level.push({
-                                time: note.time,
-                                type: "right",
-                                instrument: note.instrument
-                            });
-                        }
-                        }
-                    }
-            });
-        } else if (track.instrument.percussion) {
-            //Generate percussion obstacles
-            track.notes.forEach(note => {
+        track.notes.forEach(note => {
+            if(note.time === lastNoteTime) {
+                continue;
+            }
+            else {
                 level.push({
                     time: note.time,
-                    type: "percussion",
-                    instrument: note.instrument
+                    type: note.pitch.charAt(0)
                 });
-            });
-        }
-        console.log("here");
+                lastNoteTime = note.time;
+            }
+        });
     }
 
     level.sort((a, b) => {
@@ -109,6 +36,5 @@ async function parse(file) {
             return 0;
         }
     });
-    console.log("parse3");
     return level;
 }
