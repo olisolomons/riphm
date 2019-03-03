@@ -1,22 +1,30 @@
 const SPACING = 2000;
 const NUM_LETTERS = 7;
 
+let track_width = 1500;
+let box_width = track_width / NUM_LETTERS;
+
 class Game {
     constructor(level) {
         this.level = level;
 
-        this.startTime = new Date().getTime();
+        this.startTime = new Date().getTime() + 5000;
 
         this.current = [];
         this.min = -0.12;
         this.max = 2.7;
 
-        this.player_pos = 3;
-        this.player_pos_vis = 3;
-        this.player_vel = 0;
-        this.acc = 0;
+        this.player = {
+            pos: 3,
+            pos_vis: 3,
+            acc: 0,
+            vel: 0
+        }
+
         this.got = new Set();
         this.score = 0;
+
+
 
         // this.level = [{
         //     time: -0.12,
@@ -43,16 +51,38 @@ class Game {
             }
         }
     }
+    set player_pos(val) {
+        if (val < 0) {
+            val = 0;
+        } else if (val > 6) {
+            val = 6;
+        }
+        this.player.pos = val;
+        ws.send(JSON.stringify({
+            type: 'move',
+            pos: val,
+            id: id
+        }));
+    }
+    get player_pos() {
+        return this.player.pos;
+    }
     pos(note) {
         return note.time - this.time() / 1000;
     }
 
     time() {
-        // return 0;
         return new Date().getTime() - this.startTime;
     }
 
     draw() {
+        // background(0);
+        // directionalLight(250, 250, 250, 100, 150, 0);
+        // specularMaterial(125, 0, 0);
+        // // scale(10);
+        // translate(0,100,100);
+        // model(playerModel);
+        // return ;
         // camera(0, 0, frameCount * 0.1, 0, 0, 0, 0, 1, 0);
         background(100);
 
@@ -75,8 +105,7 @@ class Game {
         specularMaterial(125, 0, 0);
         plane(1500, 15000, 500);
 
-        let track_width = 1500;
-        let box_width = track_width / NUM_LETTERS;
+
 
         this.maintain();
         noStroke();
@@ -88,7 +117,7 @@ class Game {
             if (this.got.has(note)) {
                 specularMaterial(0, 255, 0);
             } else {
-                if (this.pos(note) < 0.05 && this.pos(note)>-0.1){
+                if (this.pos(note) < 0.05 && this.pos(note) > -0.1) {
                     if (x_pos === this.player_pos) {
                         this.got.add(note);
                         this.score++;
@@ -99,40 +128,52 @@ class Game {
 
                 } else {
                     // normalMaterial(1000, 1000, 1000);
-                    ambientMaterial(255,255,255);
+                    ambientMaterial(255, 255, 255);
                 }
             }
 
             let x_coord = (box_width - track_width) / 2 + box_width * x_pos;
             let y_coord = 400 + (-this.pos(note)) * SPACING;
-            translate(x_coord, y_coord, 50);
+            translate(x_coord, y_coord, -50);
             // translate(0, 400 + (-this.pos(note) - 0.5) * SPACING, 50);
 
-            box(box_width, 100, 100);
+            // box(box_width, 100, 100);
+            scale(0.4);
+            rotateX(PI/2);
+            model(noteModel);
 
             pop();
 
 
         }
-
+        specularMaterial(200, 200, 250);
+        for (let id in others) {
+            this.drawPlayer(others[id], 35);
+        }
+        normalMaterial();
+        specularMaterial(255, 255, 250);
+        this.drawPlayer(this.player, 40);
+    }
+    drawPlayer(player, radius) {
         push();
 
-        specularMaterial(250, 250, 250);
-        if (this.player_pos_vis !== this.player_pos) {
-            this.acc = this.player_pos - this.player_pos_vis;
-            // this.acc *= Math.abs(this.acc);
-            this.acc *= 0.1;
 
+        if (player.pos_vis !== player.pos) {
+            player.acc = player.pos - player.pos_vis;
+            // this.acc *= Math.abs(this.acc);
+            player.acc *= 0.1;
         }
 
-        this.player_vel += this.acc;
-        this.player_vel *= 0.7;
-        this.player_pos_vis += this.player_vel;
+        player.vel += player.acc;
+        player.vel *= 0.7;
+        player.pos_vis += player.vel;
 
-        translate((box_width - track_width) / 2 + box_width * this.player_pos_vis, 400, 50);
-        // translate(0, 400 + (-this.pos(note) - 0.5) * SPACING, 50);
-        // box(box_width, 100, 100);
-        sphere(40);
+        translate((box_width - track_width) / 2 + box_width * player.pos_vis, 400, 50);
+        // translate(0, 400, 50);
+        // sphere(radius);
+        scale(radius);
+        rotateX(PI/2);
+        model(playerModel);
         pop();
     }
 }

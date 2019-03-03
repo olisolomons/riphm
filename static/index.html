@@ -1,17 +1,39 @@
 <head>
-    <title>riphm</title>
+    <title>Riphm</title>
 </head>
 
 <body>
-    <!-- <canvas id="canvas" width="300" height="300"></canvas> -->
+    <article>
+        <h1>Riphm</h1>
+        <h2>We know how to spell</h2>
+        <a href="/riphm/play"><input type="button" value="Play"></input></a>
+    </article>
 
+    <style>
+        article {
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-60%) translateX(-50%);
+
+
+        }
+        body {
+            background-color: rgb(125,0,0);
+        }
+
+        h1 {
+            font-size: 50;
+        }
+
+        h2 {
+            font-size: 20;
+        }
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.7.6/Tone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/midiconvert@0.4.7/build/MidiConvert.min.js"></script>
-    <script src="script.js" charset="utf-8"></script>
-    <script src="game.js" charset="utf-8"></script>
-    <script src="Midi.js" charset="utf-8"></script>
-    <script src="midiParse.js" charset="utf-8"></script>
-
+    <script type="text/javascript">
+        $('#score').text(`You scored: ${new URLSearchParams(window.location.search).get('score')}`)
+    </script>
 </body>
