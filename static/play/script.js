@@ -9,7 +9,7 @@ function preload() {
     myFont = loadFont('Poly-Regular.otf');
     playerModel = loadModel('/riphm/player.obj');
     noteModel = loadModel('/riphm/note.obj');
-
+    
 }
 
 let pg;
