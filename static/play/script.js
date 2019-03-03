@@ -15,6 +15,9 @@ function preload() {
 let pg;
 let game;
 let ws = new WebSocket(`wss://${window.location.host}/riphm/api/ws`);
+ws.onopen=(()=>{
+    console.log("ws on");
+})
 let id;
 let others = {};
 
@@ -23,6 +26,7 @@ let noteModel;
 
 
 ws.onmessage = (msg) => {
+    console.log(msg.data);
     msg = JSON.parse(msg.data);
     switch (msg.type) {
         case 'id':
@@ -52,6 +56,7 @@ ws.onmessage = (msg) => {
             delete others[msg.id];
             break;
         case 'start':
+        console.log("started");
             start();
             started = true;
             break;
@@ -65,7 +70,6 @@ function sleep(time) {
 }
 
 let audio;
-let started = false;
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
@@ -80,6 +84,8 @@ function setup() {
             window.location.replace(`/riphm/end?score=${game.score}`);
         }, 1000);
     };
+    // start();
+    // started=true;
 
 }
 async function start() {
@@ -94,6 +100,7 @@ async function start() {
 
 let angle = Math.PI * 0.3;
 
+let started = false;
 function draw() {
     if (!started) {
         background(100);
@@ -127,7 +134,8 @@ function draw() {
 
 
 function keyPressed() {
-    if (keyCode === ENTER) {
+    if (keyCode === ENTER && !started) {
+        console.log("start");
         ws.send(JSON.stringify({
             type: 'start'
         }));
