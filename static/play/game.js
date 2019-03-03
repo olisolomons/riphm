@@ -84,6 +84,7 @@ class Game {
         // model(playerModel);
         // return ;
         // camera(0, 0, frameCount * 0.1, 0, 0, 0, 0, 1, 0);
+        shader(s);
         background(100);
 
         // fill('#ED225D');
