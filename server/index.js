@@ -40,8 +40,9 @@ api.ws('/ws', (ws, req) => {
 
 
     ws.on('message', msg => {
+        let obj = JSON.parse(msg);
         for (let ws2 of websockets) {
-            if (ws2 === ws) {
+            if (ws2 === ws && obj.type!=='start') {
                 continue;
             }
 
