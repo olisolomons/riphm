@@ -52,7 +52,8 @@ ws.onmessage = (msg) => {
             delete others[msg.id];
             break;
         case 'start':
-            start()
+            start();
+            started=true;
             break;
     }
 };
@@ -93,6 +94,16 @@ async function start() {
 let angle = Math.PI * 0.3;
 
 function draw() {
+if(!started){
+    background(100);
+    textFont(myFont);
+    textSize(50);
+    translate(-120, 0, 0);
+    ambientMaterial(0, 0, 0);
+    text("Press enter to start", 0, 0);
+    return ;
+}
+
     if (game) {
         if (controls === 'mouse') {
             game.player_pos = Math.floor(mouseX / width * 7);
@@ -113,11 +124,13 @@ function draw() {
     }
 
 }
-
+let started = false;
 
 function keyPressed() {
-    if(keyCode===ENTER){
-        start();
+    if(keyCode===ENTER && !started){
+        ws.send(JSON.stringify({
+            type:'start'
+        }));
     }
     if (!game) {
         return;
